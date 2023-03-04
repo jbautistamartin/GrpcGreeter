@@ -7,13 +7,11 @@ COPY . ./
 RUN dotnet restore
 # Build and publish a release
 RUN dotnet publish -c Release -o out
-# RUN dotnet dev-certs https
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /App
 EXPOSE 5001
 COPY --from=build-env /App/out .
-# RUN dotnet dev-certs https --trust
 
 ENTRYPOINT ["dotnet", "GrpcGreeter.dll"]
